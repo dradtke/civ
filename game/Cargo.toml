@@ -1,0 +1,13 @@
+[package]
+name = "game"
+version = "0.1.0"
+authors = ["Damien Radtke <damienradtke@gmail.com>"]
+
+[lib]
+name = "game"
+crate-type = ["dylib"]
+
+[dependencies]
+allegro       = "0.0.32"
+allegro_font  = "0.0.32"
+allegro_image = "0.0.32"
