@@ -12,6 +12,7 @@ pub struct Transition {
 }
 
 impl Transition {
+    #[allow(dead_code)]
     pub fn new(from: Box<::GameState>, to: Box<::GameState>) -> Transition {
         Transition{
             from: from,
@@ -22,12 +23,12 @@ impl Transition {
 }
 
 impl ::GameState for Transition {
-    fn render(&self, p: &::Platform) {
+    fn render(&self, _p: &::Platform) {
         let white = Color::from_rgb(u8::MAX, u8::MAX, u8::MAX);
-        ::draw::text(p, white, (10, 10), FontAlign::Left, "Transitioning!");
+        ::draw::text(_p, white, (10, 10), FontAlign::Left, "Transitioning!");
     }
 
-    fn update(&mut self, p: &::Platform) -> Option<Box<::GameState>> {
+    fn update(&mut self, _p: &::Platform) -> Option<Box<::GameState>> {
         self.timer -= 1;
         if self.timer <= 0 {
             Some(self.to.clone())

@@ -22,18 +22,18 @@ impl Game {
 }
 
 impl ::GameState for Game {
-    fn update(&mut self, _: &::Platform) -> Option<Box<::GameState>> {
+    fn update(&mut self, _p: &::Platform) -> Option<Box<::GameState>> {
         None
     }
 
-    fn render(&self, p: &::Platform) {
-        ::draw::map(p, &self.map, self.camera);
+    fn render(&self, _p: &::Platform) {
+        ::draw::map(_p, &self.map, self.camera);
     }
 
-    fn handle_event(&mut self, p: &::Platform, event: Event) -> Option<Box<::GameState>> {
+    fn handle_event(&mut self, _p: &::Platform, event: Event) -> Option<Box<::GameState>> {
         match event {
             ::allegro::Event::KeyDown{ keycode, ..} if keycode == ::allegro::keycodes::KeyCode::Space => {
-                Some(Box::new(::states::map_editor::MapEditor::new(self.map.clone())))
+                Some(Box::new(::states::map_editor::MapEditor::new(_p, self.map.clone())))
             },
             _ => None
         }

@@ -46,23 +46,23 @@ impl Loading {
 }
 
 impl ::GameState for Loading {
-    fn init(&mut self, p: &::Platform) {
+    fn init(&mut self, _p: &::Platform) {
         let (tx, rx) = channel();
         self.tilemap_recv = Some(rx);
-        let core = p.core.clone();
+        let core = _p.core.clone();
         thread::spawn(move || {
             let tilemap = ::assets::load_tilemap(&core);
             tx.send(tilemap).unwrap();
         });
     }
 
-    fn render(&self, p: &::Platform) {
+    fn render(&self, _p: &::Platform) {
         let white = Color::from_rgb(u8::MAX, u8::MAX, u8::MAX);
         let dots = (0..self.dot_count).map(|_| '.').collect::<String>();
-        ::draw::text(p, white, (10, 10), FontAlign::Left, (String::from("Loading") + &dots).as_str());
+        ::draw::text(_p, white, (10, 10), FontAlign::Left, (String::from("Loading") + &dots).as_str());
     }
 
-    fn update(&mut self, p: &::Platform) -> Option<Box<::GameState>> {
+    fn update(&mut self, _p: &::Platform) -> Option<Box<::GameState>> {
         if let Some(ref rx) = self.tilemap_recv {
             match rx.try_recv() {
                 Ok(tilemap) => {
