@@ -59,7 +59,7 @@ impl ::GameState for Loading {
     fn render(&self, p: &::Platform) {
         let white = Color::from_rgb(u8::MAX, u8::MAX, u8::MAX);
         let dots = (0..self.dot_count).map(|_| '.').collect::<String>();
-        ::draw_text(p, white, 10.0, 10.0, FontAlign::Left, (String::from("Loading") + &dots).as_str());
+        ::draw::text(p, white, (10, 10), FontAlign::Left, (String::from("Loading") + &dots).as_str());
     }
 
     fn update(&mut self, p: &::Platform) -> Option<Box<::GameState>> {

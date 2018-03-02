@@ -8,6 +8,7 @@ name = "game"
 crate-type = ["dylib"]
 
 [dependencies]
-allegro       = "0.0.32"
-allegro_font  = "0.0.32"
-allegro_image = "0.0.32"
+allegro            = "0.0.32"
+allegro_font       = "0.0.32"
+allegro_image      = "0.0.32"
+allegro_primitives = "0.0.32"

@@ -6,6 +6,7 @@ use std::collections::HashSet;
 #[derive(Clone)]
 pub struct KeySet(HashSet<u32>);
 
+#[allow(dead_code)]
 impl KeySet {
     pub fn new() -> KeySet {
         KeySet(HashSet::new())
@@ -27,14 +28,11 @@ impl KeySet {
         !self.is_down(keycode)
     }
 
-    /// An Allegro event can be passed into here to update the set's state.
-    /// It returns true if the event was a key-down or key-up event, otherwise
-    /// false.
-    pub fn handle_key_event(&mut self, event: ::allegro::Event) -> bool {
+    pub fn handle_key_event(&mut self, event: ::allegro::Event) -> Option<(::allegro::keycodes::KeyCode, bool)> {
         match event {
-            ::allegro::Event::KeyDown{ keycode, .. } => { self.0.insert(keycode as u32); true },
-            ::allegro::Event::KeyUp{ keycode, .. } => { self.0.remove(&(keycode as u32)); true },
-            _ => false,
+            ::allegro::Event::KeyDown{ keycode, .. } => { self.mark_down(keycode); Some((keycode, true)) },
+            ::allegro::Event::KeyUp{ keycode, .. } => { self.mark_up(keycode); Some((keycode, false)) },
+            _ => None,
         }
     }
 }

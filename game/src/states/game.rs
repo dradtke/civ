@@ -4,8 +4,7 @@ use allegro::Event;
 #[derive(Clone)]
 pub struct Game {
     map: ::MapDef,
-    x_start: f32,
-    y_start: f32,
+    camera: ::Pos,
 }
 
 impl Game {
@@ -16,8 +15,7 @@ impl Game {
             vec![0, 0, 1, 1, 0, 0, 2, 0, 0],
         ]);
         Game{
-            x_start: 50.0,
-            y_start: 50.0,
+            camera: (0, 0),
             map: map,
         }
     }
@@ -29,7 +27,7 @@ impl ::GameState for Game {
     }
 
     fn render(&self, p: &::Platform) {
-        ::draw_map(p, &self.map, self.x_start, self.y_start);
+        ::draw::map(p, &self.map, self.camera);
     }
 
     fn handle_event(&mut self, p: &::Platform, event: Event) -> Option<Box<::GameState>> {

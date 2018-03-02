@@ -24,7 +24,7 @@ impl Transition {
 impl ::GameState for Transition {
     fn render(&self, p: &::Platform) {
         let white = Color::from_rgb(u8::MAX, u8::MAX, u8::MAX);
-        ::draw_text(p, white, 10.0, 10.0, FontAlign::Left, "Transitioning!");
+        ::draw::text(p, white, (10, 10), FontAlign::Left, "Transitioning!");
     }
 
     fn update(&mut self, p: &::Platform) -> Option<Box<::GameState>> {

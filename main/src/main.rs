@@ -1,11 +1,13 @@
 #[macro_use] extern crate allegro;
 extern crate allegro_font;
 extern crate allegro_image;
+extern crate allegro_primitives;
 extern crate libloading;
 extern crate game;
 
 use allegro_font::FontAddon;
 use allegro_image::ImageAddon;
+use allegro_primitives::PrimitivesAddon;
 use libloading::Library;
 use game::{GameState, Platform};
 use std::fs;
@@ -77,6 +79,7 @@ allegro_main!
     let platform = Platform{
         font_addon: FontAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         image_addon: ImageAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
+        primitives_addon: PrimitivesAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         core: Arc::new(core),
     };
 

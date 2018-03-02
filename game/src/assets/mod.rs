@@ -7,8 +7,8 @@ static mut TILES: Option<Tilemap> = None;
 
 struct Tilemap {
     pub tiles: HashMap<i32, Weak<SubBitmap>>,
-    pub tile_width: f32,
-    pub tile_height: f32,
+    pub tile_width: i32,
+    pub tile_height: i32,
     #[allow(dead_code)] source: Bitmap,
 }
 
@@ -21,16 +21,16 @@ fn tilemap() -> &'static Tilemap {
     }
 }
 
-pub fn draw_tile(core: &::allegro::Core, id: i32, dx: f32, dy: f32, flags: Option<::allegro::BitmapDrawingFlags>) {
+pub fn draw_tile(core: &::allegro::Core, id: i32, dx: i32, dy: i32, flags: Option<::allegro::BitmapDrawingFlags>) {
     let tile = tilemap().tiles.get(&id).unwrap().upgrade().unwrap();
-    core.draw_bitmap(&(*tile), dx, dy, flags.unwrap_or(::allegro::BitmapDrawingFlags::zero()));
+    core.draw_bitmap(&(*tile), dx as f32, dy as f32, flags.unwrap_or(::allegro::BitmapDrawingFlags::zero()));
 }
 
-pub fn tile_width() -> f32 {
+pub fn tile_width() -> i32 {
     tilemap().tile_width
 }
 
-pub fn tile_height() -> f32 {
+pub fn tile_height() -> i32 {
     tilemap().tile_height
 }
 
@@ -61,8 +61,8 @@ pub fn init_tilemap(bmp: MemoryBitmap) {
     unsafe {
         TILES = Some(Tilemap{
             source: bmp,
-            tile_width: tile_width as f32,
-            tile_height: /*tile_height as f32*/ 30.0,
+            tile_width: tile_width,
+            tile_height: /*tile_height as f32*/ 30, // TODO: figure this out
             tiles: tiles,
         })
     }
