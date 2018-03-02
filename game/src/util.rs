@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::time::Instant;
 
 /// KeySet is a wrapper around HashSet<u32> that automatically handles
 /// keycode conversions, along with convenience methods for keeping track
@@ -35,4 +36,18 @@ impl KeySet {
             _ => None,
         }
     }
+}
+
+/// Utility method for measuring the time it takes to execute a block of code. Example:
+///
+///     ::util::measure_elapsed("method name", || {
+///         ...
+///     });
+///
+pub fn measure_elapsed<F: FnOnce()>(name: &'static str, f: F) {
+    let start = Instant::now();
+    f();
+    let elapsed = Instant::now().duration_since(start);
+    let elapsed_millis = (elapsed.as_secs() * 1000) + (elapsed.subsec_nanos() as u64)/1000000;
+    println!("{} elapsed time: {} milliseconds", name, elapsed_millis);
 }

@@ -66,7 +66,7 @@ impl ::GameState for Loading {
         if let Some(ref rx) = self.tilemap_recv {
             match rx.try_recv() {
                 Ok(tilemap) => {
-                    ::assets::init_tilemap(tilemap);
+                    ::assets::init_tilemap(&_p.display, tilemap);
                     return Some(Box::new(::states::game::Game::new(None)));
                 },
                 // TODO: check what type of error this actually is

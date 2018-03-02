@@ -80,11 +80,11 @@ allegro_main!
         font_addon: FontAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         image_addon: ImageAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         primitives_addon: PrimitivesAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
+        display: allegro::Display::new(&core, SCREEN_WIDTH, SCREEN_HEIGHT).unwrap(),
         core: Arc::new(core),
     };
 
-    let disp = allegro::Display::new(&platform.core, SCREEN_WIDTH, SCREEN_HEIGHT).unwrap();
-    disp.set_window_title("Hello, Allegro!");
+    platform.display.set_window_title("Hello, Allegro!");
 
     platform.core.install_keyboard().unwrap();
     platform.core.install_mouse().unwrap();
@@ -96,7 +96,7 @@ allegro_main!
 
     let timer = allegro::Timer::new(&platform.core, 1.0 / FPS).unwrap();
     let q = allegro::EventQueue::new(&platform.core).unwrap();
-    q.register_event_source(disp.get_event_source());
+    q.register_event_source(platform.display.get_event_source());
     platform.core.get_keyboard_event_source().map(|src| q.register_event_source(src));
     platform.core.get_mouse_event_source().map(|src| q.register_event_source(src));
     q.register_event_source(timer.get_event_source());

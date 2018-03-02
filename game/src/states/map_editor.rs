@@ -22,7 +22,8 @@ impl MapEditor {
             map: map,
             selected_tile: (0, 0),
             buttons: vec![
-                ::draw::Button::new(_p, String::from("Add Row"), (10, 400), 1),
+                ::draw::Button::new(_p, String::from("Add Column"), (10, 400), 1),
+                ::draw::Button::new(_p, String::from("Add Row"), (120, 400), 2),
             ],
         }
     }
@@ -62,14 +63,16 @@ impl ::GameState for MapEditor {
 
         match event {
             ::allegro::Event::MouseButtonDown{ x, y, button, .. } if button == 1 => {
+                let mut clicked_button = None;
                 for button in self.buttons.iter() {
                     if button.clicked((x, y)) {
-                        match button.get_id() {
-                            1 => println!("Adding a row!"),
-                            id => println!("unrecognized button id: {}", id),
-                        }
-                        return None;
+                        clicked_button = Some(button.get_id());
+                        break;
                     }
+                }
+                if let Some(id) = clicked_button {
+                    self.handle_button(id);
+                    return None;
                 }
 
                 if let Some(pos) = ::draw::clicked_tile(&self.map, self.camera, (x, y)) {
@@ -85,5 +88,27 @@ impl ::GameState for MapEditor {
 
     fn box_clone(&self) -> Box<::GameState> {
         Box::new((*self).clone())
+    }
+}
+
+impl MapEditor {
+    fn handle_button(&mut self, id: u32) {
+        match id {
+            1 => self.add_column(),
+            2 => self.add_row(),
+            _ => (),
+        }
+    }
+
+    fn add_column(&mut self) {
+        let column = self.map.last().unwrap().clone();
+        self.map.push(column);
+    }
+
+    fn add_row(&mut self) {
+        for column in self.map.iter_mut() {
+            let tile = column.last().unwrap().clone();
+            column.push(tile);
+        }
     }
 }

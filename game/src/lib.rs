@@ -56,6 +56,7 @@ pub fn clean_up(mut state: Box<GameState>) {
 #[allow(dead_code)]
 pub struct Platform {
     pub core: Arc<allegro::Core>,
+    pub display: allegro::Display,
     pub font_addon: allegro_font::FontAddon,
     pub image_addon: allegro_image::ImageAddon,
     pub primitives_addon: allegro_primitives::PrimitivesAddon,
