@@ -21,9 +21,22 @@ fn tilemap() -> &'static Tilemap {
     }
 }
 
-pub fn draw_tile(core: &::allegro::Core, id: i32, dx: i32, dy: i32, flags: Option<::allegro::BitmapDrawingFlags>) {
+pub fn draw_tile(core: &::allegro::Core, id: i32, dx: i32, dy: i32, scale_factor: f64, flags: Option<::allegro::BitmapDrawingFlags>) {
     let tile = tilemap().tiles.get(&id).unwrap().upgrade().unwrap();
-    core.draw_bitmap(&(*tile), dx as f32, dy as f32, flags.unwrap_or(::allegro::BitmapDrawingFlags::zero()));
+    let scale_factor = scale_factor as f32;
+    let tw = tile_width() as f32;
+    let th = tile_height() as f32;
+
+    let sx = 0.0;
+    let sy = 0.0;
+    let sw = tw*scale_factor;
+    let sh = th*scale_factor;
+    let dx = (dx as f32);
+    let dy = (dy as f32);
+    let dw = tw*scale_factor;
+    let dh = th*scale_factor;
+    let flags = flags.unwrap_or(::allegro::BitmapDrawingFlags::zero());
+    core.draw_scaled_bitmap(&(*tile), sx, sy, sw, sh, dx, dy, dw, dh, flags);
 }
 
 pub fn tile_width() -> i32 {
@@ -51,6 +64,7 @@ pub fn init_tilemap(display: &Display, bmp: MemoryBitmap) {
     let bmp = display.convert_bitmap(&bmp.into_bitmap()).unwrap();
     let tile_width = bmp.get_width() / SRC_WIDTH;
     let tile_height = bmp.get_height() / SRC_HEIGHT;
+    println!("Tile dimensions: {}x{}", tile_width, tile_height);
     let mut tiles = HashMap::with_capacity((SRC_WIDTH * SRC_HEIGHT) as usize);
     for y in 0..SRC_HEIGHT {
         for x in 0..SRC_WIDTH {

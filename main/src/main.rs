@@ -4,18 +4,20 @@ extern crate allegro_image;
 extern crate allegro_primitives;
 extern crate libloading;
 extern crate game;
+extern crate cocoa;
 
 use allegro_font::FontAddon;
 use allegro_image::ImageAddon;
 use allegro_primitives::PrimitivesAddon;
+use cocoa::appkit::NSScreen;
 use libloading::Library;
 use game::{GameState, Platform};
 use std::fs;
 use std::sync::Arc;
 
 const FPS:           f64 = 60.0;
-const SCREEN_WIDTH:  i32 = 640;
-const SCREEN_HEIGHT: i32 = 480;
+const SCREEN_WIDTH:  f64 = 640.0;
+const SCREEN_HEIGHT: f64 = 480.0;
 
 struct Application;
 
@@ -71,17 +73,26 @@ impl Application {
     }
 }
 
+/// Calculates the screen's scale factor.
+/// Currently only works for Mac OSX.
+fn get_scale_factor() -> f64 {
+    unsafe { NSScreen::mainScreen(cocoa::base::nil).backingScaleFactor() }
+}
+
 const LIB_PATH: &'static str = "../game/target/debug/libgame.dylib";
 
 allegro_main!
 {
+    let scale_factor = get_scale_factor();
+
     let core = allegro::Core::init().unwrap();
     let platform = Platform{
         font_addon: FontAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         image_addon: ImageAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
         primitives_addon: PrimitivesAddon::init(&core).unwrap_or_else(|msg| panic!(msg)),
-        display: allegro::Display::new(&core, SCREEN_WIDTH, SCREEN_HEIGHT).unwrap(),
+        display: allegro::Display::new(&core, (SCREEN_WIDTH*scale_factor) as i32, (SCREEN_HEIGHT*scale_factor) as i32).unwrap(),
         core: Arc::new(core),
+        scale_factor: scale_factor,
     };
 
     platform.display.set_window_title("Hello, Allegro!");

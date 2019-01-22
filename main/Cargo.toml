@@ -9,6 +9,7 @@ allegro_font       = "0.0.32"
 allegro_image      = "0.0.32"
 allegro_primitives = "0.0.32"
 libloading         = "0.3"
+cocoa = "0.18.4"
 
 [dependencies.game]
 path = "../game"

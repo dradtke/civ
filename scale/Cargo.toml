@@ -1,0 +1,9 @@
+[package]
+name = "scale"
+version = "0.1.0"
+authors = ["Damien Radtke <damienradtke@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+cocoa = "0.18.4"
+objc = "0.2.5"
