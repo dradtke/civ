@@ -60,7 +60,6 @@ pub struct Platform {
     pub font_addon: allegro_font::FontAddon,
     pub image_addon: allegro_image::ImageAddon,
     pub primitives_addon: allegro_primitives::PrimitivesAddon,
-    pub scale_factor: f64,
 }
 
 pub fn new_state(p: &Platform) -> Box<GameState> {

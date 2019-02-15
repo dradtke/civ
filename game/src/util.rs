@@ -44,6 +44,7 @@ impl KeySet {
 ///         ...
 ///     });
 ///
+#[allow(dead_code)]
 pub fn measure_elapsed<F: FnOnce()>(name: &'static str, f: F) {
     let start = Instant::now();
     f();

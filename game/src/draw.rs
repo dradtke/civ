@@ -8,7 +8,7 @@ pub fn map(_p: &::Platform, map: &::MapDef, camera: ::Pos) {
     // let y_step = tiles.tile_height/2.0;
     for (x, row) in map.iter().enumerate() {
         for (y, id) in row.iter().enumerate() {
-            ::assets::draw_tile(&_p.core, *id, xpos(camera.0, x as i32), ypos(camera.1, x as i32, y as i32), _p.scale_factor, None);
+            ::assets::draw_tile(&_p.core, *id, xpos(camera.0, x as i32), ypos(camera.1, x as i32, y as i32), None);
         }
     }
     _p.core.hold_bitmap_drawing(false);

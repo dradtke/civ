@@ -21,20 +21,17 @@ fn tilemap() -> &'static Tilemap {
     }
 }
 
-pub fn draw_tile(core: &::allegro::Core, id: i32, dx: i32, dy: i32, scale_factor: f64, flags: Option<::allegro::BitmapDrawingFlags>) {
+pub fn draw_tile(core: &::allegro::Core, id: i32, dx: i32, dy: i32, flags: Option<::allegro::BitmapDrawingFlags>) {
     let tile = tilemap().tiles.get(&id).unwrap().upgrade().unwrap();
-    let scale_factor = scale_factor as f32;
-    let tw = tile_width() as f32;
-    let th = tile_height() as f32;
 
     let sx = 0.0;
     let sy = 0.0;
-    let sw = tw*scale_factor;
-    let sh = th*scale_factor;
-    let dx = (dx as f32);
-    let dy = (dy as f32);
-    let dw = tw*scale_factor;
-    let dh = th*scale_factor;
+    let sw = tile_width() as f32;
+    let sh = tile_height() as f32;
+    let dx = dx as f32;
+    let dy = dy as f32;
+    let dw = sw;
+    let dh = sh;
     let flags = flags.unwrap_or(::allegro::BitmapDrawingFlags::zero());
     core.draw_scaled_bitmap(&(*tile), sx, sy, sw, sh, dx, dy, dw, dh, flags);
 }
